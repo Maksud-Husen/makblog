@@ -3,6 +3,12 @@ services:
     image: mysql:latest
     container_name: blog-db
     restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -24,7 +30,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${BACKEND_PORT}:8000"
+      - "${BACKEND_PORT}:8003"
     depends_on:
       - db
     networks:
@@ -44,7 +50,7 @@ services:
               time.sleep(2)
       ' &&
       python manage.py migrate &&
-      python manage.py runserver 0.0.0.0:8000"
+      python manage.py runserver 0.0.0.0:8003"
 
   frontend:
     build:
@@ -58,6 +64,8 @@ services:
       - "${FRONTEND_PORT}:${VITE_PORT}"
     networks:
       - blog-network
+    volumes:
+      - ./blog-backend/media:/app/media
 
 networks:
   blog-network:

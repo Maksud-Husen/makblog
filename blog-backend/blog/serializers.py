@@ -10,7 +10,7 @@ class PostSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         if instance.image:
             # Prepend /media/ to the image name for the output
-            representation['image'] = f"/media/{instance.image.name}"
+            representation['image'] = instance.image.url
         return representation
 
     
