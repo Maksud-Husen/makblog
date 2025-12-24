@@ -148,10 +148,20 @@ const Admin = () => {
                 handleCloseModal();
                 fetchPosts(); // Refresh the list
             } else {
-                const err = await response.json();
-                console.error(`${modalMode === 'create' ? 'Creation' : 'Update'} error:`, err);
+                 // Check if the response is JSON
+                const contentType = response.headers.get("content-type") || "";
+                let errData;
+
+                if (contentType.includes("application/json")) {
+                    errData = await response.json();
+                } else {
+                    // Fallback: read as text (HTML error page, etc.)
+                    errData = await response.text();
+                }
+
+                console.error(`${modalMode === 'create' ? 'Creation' : 'Update'} error:`, errData);
                 alert(`Post ${modalMode === 'create' ? 'creation' : 'update'} failed`);
-            }
+}
         } catch (error) {
             console.error("Submission error:", error);
             alert(`An error occurred during post ${modalMode === 'create' ? 'creation' : 'update'}`);
