@@ -1,0 +1,8 @@
+.custom-navbar {
+  min-height: 70px; 
+  background-color: #343a40 !important; 
+}
+.navbar-brand-custom {
+  font-size: 20px; 
+  color: #ffffff !important; 
+}
