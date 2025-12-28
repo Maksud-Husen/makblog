@@ -56,29 +56,31 @@ const PostDetails = () => {
             </header>
 
             {/* Content Area */}
-            <div className="post-details mt-4">
-                <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-                        <li className="breadcrumb-item active" aria-current="page">{post.title}</li>
-                    </ol>
-                </nav>
-            
-                <article>
-                    <figure className="mb-4 flex justify-center">
-                        <img className="rounded w-full max-w-md object-cover" src={post.image} alt={post.title} style={{ maxHeight: '400px' }} />
-                    </figure>
-                    <header className="mb-4">
-                        <h1 className="fw-bolder mb-1">{post.title}</h1>
-                        <div className="text-muted fst-italic mb-2">Posted on {new Date(post.created_at).toLocaleDateString()} </div>
-                    </header>
-                    <section className="mb-5">
-                        <p className="fs-5 mb-4">{post.content}</p>
-                    </section>
-                </article>
+            <div className="w-full px-4 py-4">
+                <div className="max-w-4xl mx-auto">
+                    <nav aria-label="breadcrumb">
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                            <li className="breadcrumb-item active" aria-current="page">{post.title}</li>
+                        </ol>
+                    </nav>
                 
-                <div className="mt-5">
-                    <Link to="/" className="btn btn-secondary">&larr; Back to Posts</Link>
+                    <article>
+                        <figure className="mb-4">
+                            <img className="rounded w-full max-w-lg object-cover" src={post.image} alt={post.title} style={{ maxHeight: '500px' }} />
+                        </figure>
+                        <header className="mb-4">
+                            <h1 className="fw-bolder mb-1">{post.title}</h1>
+                            <div className="text-muted fst-italic mb-2">Posted on {new Date(post.created_at).toLocaleDateString()} </div>
+                        </header>
+                        <section className="mb-5">
+                            <p className="fs-5 mb-4">{post.content}</p>
+                        </section>
+                    </article>
+                    
+                    <div className="mt-5">
+                        <Link to="/" className="btn btn-secondary">&larr; Back to Posts</Link>
+                    </div>
                 </div>
             </div>
         </>
