@@ -26,7 +26,8 @@ pipeline {
             steps {
                 echo "Stopping old containers"
                 sh '''
-                docker compose down || true
+                docker stop blog-backend blog-frontend blog-db
+                docker rm blog-backend blog-frontend blog-db
                 '''
             }
         }
