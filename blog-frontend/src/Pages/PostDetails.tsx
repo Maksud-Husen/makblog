@@ -65,8 +65,8 @@ const PostDetails = () => {
                 </nav>
             
                 <article>
-                    <figure className="mb-4">
-                        <img className="img-fluid rounded" src={post.image} alt={post.title} />
+                    <figure className="mb-4 flex justify-center">
+                        <img className="rounded w-full max-w-md object-cover" src={post.image} alt={post.title} style={{ maxHeight: '400px' }} />
                     </figure>
                     <header className="mb-4">
                         <h1 className="fw-bolder mb-1">{post.title}</h1>

@@ -43,7 +43,7 @@ useEffect(()=>{
 
             {/* Content Area */}
             <div className="w-full px-4 py-6">
-                <div className="max-w-7xl mx-auto">
+                <div className="max-w-screen-2xl mx-auto">
                     <div className="mb-4">
                         <h1 className="mb-3">Latest Posts</h1>
                         <p className="text-muted">Read our latest thoughts and updates.</p>
