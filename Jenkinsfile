@@ -9,10 +9,11 @@ pipeline {
         
         stage("change .env") {
             steps {
-                echo "Changing .env"
-                sh '''
-                cp .env.example .env
-                '''
+               if (fileExists('.env.example')) {
+                sh 'cp .env.example .env'
+               } else {
+                echo ".env.example not found, skipping .env creation"
+               }
             }
         }
 
