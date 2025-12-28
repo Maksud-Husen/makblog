@@ -327,7 +327,7 @@ function AdminContent({ activeTab }: { activeTab: 'dashboard' | 'posts' }) {
                                         value={newPost.title}
                                         onChange={handleInputChange}
                                         required
-                                        placeholder="e.g., Getting Started with React"
+                                        placeholder="Enter your post title"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                                     />
                                 </div>
