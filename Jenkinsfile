@@ -6,6 +6,15 @@ pipeline {
     }
 
     stages {
+        
+        stage("change .env") {
+            steps {
+                echo "Changing .env"
+                sh '''
+                cp .env.example .env
+                '''
+            }
+        }
 
         stage("Checkout") {
             steps {
