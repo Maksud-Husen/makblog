@@ -32,7 +32,7 @@ useEffect(()=>{
             <header className="flex items-center gap-3 border-b border-gray-600 px-4 py-4 bg-gray-700 w-full">
                 <div className="flex items-center gap-3">
                     <div className="flex aspect-square size-10 items-center justify-center rounded-lg bg-gray-800 text-white">
-                        <span className="text-xl font-bold">M</span>
+                        <span className="text-xl font-bold cursor-pointer" onClick={() => window.location.reload()}>M</span>
                     </div>
                     <div className="flex flex-col cursor-pointer" onClick={() => window.location.reload()}>
                         <span className="text-lg font-semibold text-white">MakBlog</span>
