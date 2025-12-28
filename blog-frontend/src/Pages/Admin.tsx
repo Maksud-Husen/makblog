@@ -1,7 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { logout as authLogout } from '../service/auth';
-import '../Components/Admin.css';
+
+import { Edit, Trash, FileText, Eye, MessageSquare } from "lucide-react"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/ui/app-sidebar"
 
 interface Post {
     id: number;
@@ -17,9 +27,7 @@ interface NewPost {
     image: File | null;
 }
 
-const Admin = () => {
-    const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState<'dashboard' | 'posts'>('dashboard');
+function AdminContent({ activeTab }: { activeTab: 'dashboard' | 'posts' }) {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -168,121 +176,113 @@ const Admin = () => {
         }
     };
 
-    const handleLogout = () => {
-        authLogout();
-        navigate('/login');
-    };
-
     return (
-        <div className="admin-container">
-            <aside className="admin-sidebar">
-                <h3>Admin Panel</h3>
-                <ul className="sidebar-menu">
-                    <li>
-                        <button 
-                            className={activeTab === 'dashboard' ? 'active' : ''} 
-                            onClick={() => setActiveTab('dashboard')}
-                        >
-                            Dashboard
-                        </button>
-                    </li>
-                    <li>
-                        <button 
-                            className={activeTab === 'posts' ? 'active' : ''} 
-                            onClick={() => setActiveTab('posts')}
-                        >
-                            Posts
-                        </button>
-                    </li>
-                </ul>
-                <div className="sidebar-logout">
-                    <button className="btn-logout" onClick={handleLogout}>
-                        Logout
-                    </button>
-                </div>
-            </aside>
+        <>
+            <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 border-b border-gray-600 px-4 bg-sidebar text-white">
+                    <SidebarTrigger className="-ml-1" />
+                    <div className="h-8 w-px bg-gray-400" />
+                    <h1 className="text-lg font-semibold capitalize text-white">{activeTab}</h1>
+                    <div className="flex-1">
+                        {/* Empty space for future content */}
+                    </div>
+                </header>
+                <main className="flex-1 p-6">
+                    {loading ? (
+                        <div className="text-center">Loading...</div>
+                    ) : (
+                        <>
+                            {activeTab === 'dashboard' && (
+                                <div className="space-y-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <Card className="hover:shadow-md transition-shadow">
+                                            <CardHeader className="flex flex-row items-center justify-between pb-2">
+                                                <CardTitle className="text-sm font-medium text-gray-500">Total Posts</CardTitle>
+                                                <FileText className="w-4 h-4 text-gray-400" />
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="text-2xl font-bold text-gray-900">{posts.length}</div>
+                                                <p className="text-xs text-gray-500 mt-1">published on blog</p>
+                                            </CardContent>
+                                        </Card>
 
-            <main className="admin-content">
-                {loading ? (
-                    <div className="text-center">Loading...</div>
-                ) : (
-                    <>
-                        {activeTab === 'dashboard' && (
-                            <div className="dashboard-view">
-                                <h1 className="mb-4">Dashboard</h1>
-                                <div className="stats-grid">
-                                    <div className="stat-card">
-                                        <h4>Total Posts</h4>
-                                        <div className="count">{posts.length}</div>
-                                        <p className="text-muted small">published on blog</p>
-                                    </div>
-                                    <div className="stat-card">
-                                        <h4>Total Views</h4>
-                                        <div className="count">1.2k</div> {/* Dummy data */}
-                                        <p className="text-muted small">all time views</p>
-                                    </div>
-                                    <div className="stat-card">
-                                        <h4>Comments</h4>
-                                        <div className="count">45</div> {/* Dummy data */}
-                                        <p className="text-muted small">user interactions</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                                        <Card className="hover:shadow-md transition-shadow">
+                                            <CardHeader className="flex flex-row items-center justify-between pb-2">
+                                                <CardTitle className="text-sm font-medium text-gray-500">Total Views</CardTitle>
+                                                <Eye className="w-4 h-4 text-gray-400" />
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="text-2xl font-bold text-gray-900">1.2k</div>
+                                                <p className="text-xs text-gray-500 mt-1">all time views</p>
+                                            </CardContent>
+                                        </Card>
 
-                        {activeTab === 'posts' && (
-                            <div className="posts-view">
-                                <div className="posts-header">
-                                    <h1 className="mb-4">Manage Posts</h1>
-                                    <button className="btn-add-post" onClick={handleAddPost}>
-                                        + Post
-                                    </button>
+                                        <Card className="hover:shadow-md transition-shadow">
+                                            <CardHeader className="flex flex-row items-center justify-between pb-2">
+                                                <CardTitle className="text-sm font-medium text-gray-500">Comments</CardTitle>
+                                                <MessageSquare className="w-4 h-4 text-gray-400" />
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="text-2xl font-bold text-gray-900">45</div>
+                                                <p className="text-xs text-gray-500 mt-1">user interactions</p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
                                 </div>
-                                <div className="posts-table-container">
-                                    <table className="posts-table">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Title</th>
-                                                <th>Date</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {posts.map((post, index) => (
-                                                <tr key={post.id}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{post.title}</td>
-                                                    <td>{new Date(post.created_at).toLocaleDateString()}</td>
-                                                    <td>
-                                                        <button 
-                                                            className="action-btn btn-edit"
-                                                            onClick={() => handleEdit(post.id)}
-                                                        >
-                                                            Edit
-                                                        </button>
-                                                        <button 
-                                                            className="action-btn btn-delete"
-                                                            onClick={() => handleDelete(post.id)}
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                            {posts.length === 0 && (
-                                                <tr>
-                                                    <td colSpan={4} className="text-center text-muted">No posts found.</td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
+                            )}
+
+                            {activeTab === 'posts' && (
+                                <div className="posts-view">
+                                    <div className="flex justify-end mb-4">
+                                        <button 
+                                            className="bg-[#343a40] text-white px-6 py-2 rounded-full hover:bg-gray-700 transition-colors font-semibold" 
+                                            onClick={handleAddPost}
+                                        >
+                                            + Post
+                                        </button>
+                                    </div>
+                                    <div className="posts-table-container">
+                                        <Table className="caption-center">
+                                            <TableHeader>
+                                                <TableRow className="bg-gray-600 hover:bg-gray-600">
+                                                    <TableHead className="w-[100px] text-center text-white">ID</TableHead>
+                                                    <TableHead className="text-center text-white">Title</TableHead>
+                                                    <TableHead className="text-center text-white">Date</TableHead>
+                                                    <TableHead className="text-center text-white">Action</TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {posts.map((post, index) => (
+                                                    <TableRow key={post.id}>
+                                                        <TableCell className="text-center">{index + 1}</TableCell>
+                                                        <TableCell className="text-center">{post.title}</TableCell>
+                                                        <TableCell className="text-center">{new Date(post.created_at).toLocaleDateString()}</TableCell>
+                                                        <TableCell className="text-center flex justify-center gap-4">
+                                                            <Edit 
+                                                                className="w-5 h-5 cursor-pointer text-blue-500 hover:text-blue-700" 
+                                                                onClick={() => handleEdit(post.id)}
+                                                            />
+                                                            <Trash 
+                                                                className="w-5 h-5 cursor-pointer text-red-500 hover:text-red-700" 
+                                                                onClick={() => handleDelete(post.id)}
+                                                            />
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                                {posts.length === 0 && (
+                                                    <TableRow>
+                                                        <TableCell colSpan={4} className="text-center text-muted-foreground p-4">No posts found.</TableCell>
+                                                    </TableRow>
+                                                )}
+                                            </TableBody>
+                                        </Table>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                    </>
-                )}
-            </main>
+                            )}
+                        </>
+                    )}
+                </main>
+            </SidebarInset>
 
             {/* Add Post Modal */}
             {showModal && (
@@ -338,7 +338,18 @@ const Admin = () => {
                     </div>
                 </div>
             )}
-        </div>
+        </>
+    );
+}
+
+const Admin = () => {
+    const [activeTab, setActiveTab] = useState<'dashboard' | 'posts'>('dashboard');
+
+    return (
+        <SidebarProvider>
+            <AppSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+            <AdminContent activeTab={activeTab} />
+        </SidebarProvider>
     );
 };
 

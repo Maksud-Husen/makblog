@@ -1,5 +1,4 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import NavBar from "./Components/NavBar";
 import Footer from "./Components/Footer";
 import Home from "./Pages/Home";
 import PostDetails from "./Pages/PostDetails";
@@ -21,11 +20,11 @@ function App() {
     const location = useLocation();
     const isAdminRoute = location.pathname.startsWith('/admin');
     const isLoginRoute = location.pathname === '/login';
+    const isHomeRoute = location.pathname === '/';
 
     return (
         <div className="app-container">
-            <NavBar />
-            <div className={isAdminRoute || isLoginRoute ? '' : 'container content-wrap'}>
+            <div className={isAdminRoute || isLoginRoute || isHomeRoute ? '' : 'container content-wrap'}>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/post/:id" element={<PostDetails />} />

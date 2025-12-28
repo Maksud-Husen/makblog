@@ -21,6 +21,6 @@ RUN pip install gunicorn
 COPY . .
 
 
-EXPOSE 8003
+EXPOSE 8001
 
-CMD ["gunicorn", "blog.wsgi:application", "--bind", "0.0.0.0:8003"]
+CMD ["gunicorn", "blog.wsgi:application", "--bind", "0.0.0.0:8001"]
