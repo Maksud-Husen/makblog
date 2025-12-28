@@ -29,7 +29,7 @@ useEffect(()=>{
     return (
         <>
             {/* Header - Full Width */}
-            <header className="flex items-center gap-3 border-b border-gray-600 px-4 py-4 bg-gray-700 w-full">
+            <header className="flex items-center gap-3 border-b border-gray-600 px-4 py-3 bg-gray-700 w-full">
                 <div className="flex items-center gap-3">
                     <div className="flex aspect-square size-10 items-center justify-center rounded-lg bg-gray-800 text-white">
                         <span className="text-xl font-bold cursor-pointer" onClick={() => window.location.reload()}>M</span>
@@ -42,23 +42,25 @@ useEffect(()=>{
             </header>
 
             {/* Content Area */}
-            <div className="home-page">
-                <div className="mb-4">
-                    <h1 className="mb-3">Latest Posts</h1>
-                    <p className="text-muted">Read our latest thoughts and updates.</p>
-                </div>
-                <div className="row">
-                    {posts.map(post => (
-                        <div className="col-md-4" key={post.id}>
-                            <PostCard
-                                id={post.id}
-                                title={post.title}
-                                contant={post.content}
-                                created_at={post.created_at}
-                                image={post.image}
-                            />
-                        </div> 
-                    ))}
+            <div className="w-full px-4 py-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="mb-4">
+                        <h1 className="mb-3">Latest Posts</h1>
+                        <p className="text-muted">Read our latest thoughts and updates.</p>
+                    </div>
+                    <div className="row">
+                        {posts.map(post => (
+                            <div className="col-md-4" key={post.id}>
+                                <PostCard
+                                    id={post.id}
+                                    title={post.title}
+                                    contant={post.content}
+                                    created_at={post.created_at}
+                                    image={post.image}
+                                />
+                            </div> 
+                        ))}
+                    </div>
                 </div>
             </div>
         </>

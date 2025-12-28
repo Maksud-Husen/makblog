@@ -21,10 +21,11 @@ function App() {
     const isAdminRoute = location.pathname.startsWith('/admin');
     const isLoginRoute = location.pathname === '/login';
     const isHomeRoute = location.pathname === '/';
+    const isPostDetailsRoute = location.pathname.startsWith('/post/');
 
     return (
         <div className="app-container">
-            <div className={isAdminRoute || isLoginRoute || isHomeRoute ? '' : 'container content-wrap'}>
+            <div className={isAdminRoute || isLoginRoute || isHomeRoute || isPostDetailsRoute ? '' : 'container content-wrap'}>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/post/:id" element={<PostDetails />} />

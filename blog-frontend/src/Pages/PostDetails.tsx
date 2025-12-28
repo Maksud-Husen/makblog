@@ -41,31 +41,47 @@ const PostDetails = () => {
     }
 
     return (
-        <div className="post-details mt-4">
-            <nav aria-label="breadcrumb">
-                <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-                    <li className="breadcrumb-item active" aria-current="page">{post.title}</li>
-                </ol>
-            </nav>
-        
-            <article>
-                <figure className="mb-4">
-                    <img className="img-fluid rounded" src={post.image} alt={post.title} />
-                </figure>
-                <header className="mb-4">
-                    <h1 className="fw-bolder mb-1">{post.title}</h1>
-                    <div className="text-muted fst-italic mb-2">Posted on {new Date(post.created_at).toLocaleDateString()} </div>
-                </header>
-                <section className="mb-5">
-                    <p className="fs-5 mb-4">{post.content}</p>
-                </section>
-            </article>
+        <>
+            {/* Header - Full Width */}
+            <header className="flex items-center gap-3 border-b border-gray-600 px-4 py-3 bg-gray-700 w-full">
+                <div className="flex items-center gap-3">
+                    <div className="flex aspect-square size-10 items-center justify-center rounded-lg bg-gray-800 text-white">
+                        <span className="text-xl font-bold cursor-pointer" onClick={() => window.location.href = '/'}>M</span>
+                    </div>
+                    <div className="flex flex-col cursor-pointer" onClick={() => window.location.href = '/'}>
+                        <span className="text-lg font-semibold text-white">MakBlog</span>
+                        <span className="text-xs text-gray-300">Personal Blog</span>
+                    </div>
+                </div>
+            </header>
+
+            {/* Content Area */}
+            <div className="post-details mt-4">
+                <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb">
+                        <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                        <li className="breadcrumb-item active" aria-current="page">{post.title}</li>
+                    </ol>
+                </nav>
             
-             <div className="mt-5">
-                <Link to="/" className="btn btn-secondary">&larr; Back to Posts</Link>
+                <article>
+                    <figure className="mb-4">
+                        <img className="img-fluid rounded" src={post.image} alt={post.title} />
+                    </figure>
+                    <header className="mb-4">
+                        <h1 className="fw-bolder mb-1">{post.title}</h1>
+                        <div className="text-muted fst-italic mb-2">Posted on {new Date(post.created_at).toLocaleDateString()} </div>
+                    </header>
+                    <section className="mb-5">
+                        <p className="fs-5 mb-4">{post.content}</p>
+                    </section>
+                </article>
+                
+                <div className="mt-5">
+                    <Link to="/" className="btn btn-secondary">&larr; Back to Posts</Link>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
