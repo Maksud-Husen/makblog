@@ -284,57 +284,135 @@ function AdminContent({ activeTab }: { activeTab: 'dashboard' | 'posts' }) {
                 </main>
             </SidebarInset>
 
-            {/* Add Post Modal */}
+            {/* Add/Edit Post Modal */}
             {showModal && (
-                <div className="modal-overlay" onClick={handleCloseModal}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h2>{modalMode === 'create' ? 'Add New Post' : 'Edit Post'}</h2>
-                            <button className="modal-close" onClick={handleCloseModal}>&times;</button>
-                        </div>
-                        <form onSubmit={handleSubmitPost}>
-                            <div className="form-group">
-                                <label htmlFor="title">Title</label>
-                                <input
-                                    type="text"
-                                    id="title"
-                                    name="title"
-                                    value={newPost.title}
-                                    onChange={handleInputChange}
-                                    required
-                                />
+                <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50">
+                            <div>
+                                <h2 className="text-2xl font-bold text-gray-900">
+                                    {modalMode === 'create' ? 'Create New Post' : 'Edit Post'}
+                                </h2>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    {modalMode === 'create' 
+                                        ? 'Fill in the details below to create a new blog post' 
+                                        : 'Update the post information below'}
+                                </p>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="description">Description</label>
-                                <textarea
-                                    id="description"
-                                    name="content"
-                                    value={newPost.content}
-                                    onChange={handleInputChange}
-                                    rows={4}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="image">Image</label>
-                                {currentImageUrl && !newPost.image && (
-                                    <div className="current-image-preview mb-2">
-                                        <p className="small text-muted mb-1">Current Image:</p>
-                                        <img src={currentImageUrl} alt="Current" style={{ maxWidth: '100px', borderRadius: '4px' }} />
-                                    </div>
-                                )}
-                                <input
-                                    type="file"
-                                    id="image"
-                                    name="image"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
-                            </div>
-                            <button type="submit" className="btn-submit">
-                                {modalMode === 'create' ? 'Create Post' : 'Update Post'}
+                            <button 
+                                onClick={handleCloseModal}
+                                className="text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
                             </button>
-                        </form>
+                        </div>
+
+                        {/* Modal Body */}
+                        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+                            <form onSubmit={handleSubmitPost} className="space-y-6">
+                                {/* Title Field */}
+                                <div className="space-y-2">
+                                    <label htmlFor="title" className="block text-sm font-semibold text-gray-700">
+                                        Post Title
+                                        <span className="text-red-500 ml-1">*</span>
+                                    </label>
+                                    <p className="text-xs text-gray-500">Enter a catchy title for your blog post</p>
+                                    <input
+                                        type="text"
+                                        id="title"
+                                        name="title"
+                                        value={newPost.title}
+                                        onChange={handleInputChange}
+                                        required
+                                        placeholder="e.g., Getting Started with React"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                                    />
+                                </div>
+
+                                {/* Content Field */}
+                                <div className="space-y-2">
+                                    <label htmlFor="content" className="block text-sm font-semibold text-gray-700">
+                                        Post Content
+                                        <span className="text-red-500 ml-1">*</span>
+                                    </label>
+                                    <p className="text-xs text-gray-500">Write the main content of your post</p>
+                                    <textarea
+                                        id="content"
+                                        name="content"
+                                        value={newPost.content}
+                                        onChange={handleInputChange}
+                                        rows={6}
+                                        required
+                                        placeholder="Enter your post content here..."
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none"
+                                    />
+                                </div>
+
+                                {/* Image Field */}
+                                <div className="space-y-2">
+                                    <label htmlFor="image" className="block text-sm font-semibold text-gray-700">
+                                        Featured Image
+                                        {modalMode === 'create' && <span className="text-gray-400 ml-1 font-normal">(Optional)</span>}
+                                    </label>
+                                    <p className="text-xs text-gray-500">Upload an image to accompany your post (JPG, PNG, or GIF)</p>
+                                    
+                                    {/* Current Image Preview */}
+                                    {currentImageUrl && !newPost.image && (
+                                        <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                            <p className="text-xs font-medium text-gray-600 mb-2">Current Image:</p>
+                                            <img 
+                                                src={currentImageUrl} 
+                                                alt="Current" 
+                                                className="max-w-xs h-auto rounded-md border border-gray-300"
+                                            />
+                                        </div>
+                                    )}
+
+                                    {/* New Image Preview */}
+                                    {newPost.image && (
+                                        <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                            <p className="text-xs font-medium text-blue-600 mb-2">New Image Selected:</p>
+                                            <div className="flex items-center gap-2">
+                                                <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                                                </svg>
+                                                <span className="text-sm text-gray-700">{newPost.image.name}</span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* File Input */}
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        name="image"
+                                        accept="image/*"
+                                        onChange={handleFileChange}
+                                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer cursor-pointer"
+                                    />
+                                </div>
+
+                                {/* Form Actions */}
+                                <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
+                                    <button
+                                        type="button"
+                                        onClick={handleCloseModal}
+                                        className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm"
+                                    >
+                                        {modalMode === 'create' ? 'Create Post' : 'Update Post'}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             )}
